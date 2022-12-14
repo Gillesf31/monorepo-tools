@@ -14,7 +14,14 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@monorepo-tools/tax-simulation/page-simulation/feature": [
+        "libs/tax-simulation/page-simulation/feature/src/index.ts"
+      ],
+      "@monorepo-tools/tax-simulation/page-simulation/feature-shell": [
+        "libs/tax-simulation/page-simulation/feature-shell/src/index.ts"
+      ]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
