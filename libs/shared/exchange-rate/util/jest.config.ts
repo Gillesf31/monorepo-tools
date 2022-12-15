@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'tax-simulation-page-simulation-feature-shell',
+  displayName: 'shared-exchange-rate-util',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -9,8 +9,7 @@ export default {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory:
-    '../../../../coverage/libs/tax-simulation/page-simulation/feature-shell',
+  coverageDirectory: '../../../../coverage/libs/shared/exchange-rate/util',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },

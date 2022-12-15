@@ -15,11 +15,17 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@monorepo-tools/shared/exchange-rate/data-access": [
+        "libs/shared/exchange-rate/data-access/src/index.ts"
+      ],
+      "@monorepo-tools/shared/exchange-rate/util": [
+        "libs/shared/exchange-rate/util/src/index.ts"
+      ],
+      "@monorepo-tools/tax-simulation/feature-shell": [
+        "libs/tax-simulation/feature-shell/src/index.ts"
+      ],
       "@monorepo-tools/tax-simulation/page-simulation/feature": [
         "libs/tax-simulation/page-simulation/feature/src/index.ts"
-      ],
-      "@monorepo-tools/tax-simulation/page-simulation/feature-shell": [
-        "libs/tax-simulation/page-simulation/feature-shell/src/index.ts"
       ]
     }
   },
