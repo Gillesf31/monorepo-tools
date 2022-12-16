@@ -5,12 +5,13 @@ import {CurrencyModel} from "@monorepo-tools/shared/exchange-rate/util";
 import {ExchangeRateModel, GetExchangeRateService} from "@monorepo-tools/shared/exchange-rate/data-access";
 import {take} from "rxjs";
 import {ShortNumbersPipe} from "@monorepo-tools/shared/helpers/util";
+import {CalculateTaxService} from "@monorepo-tools/tax-simulation/page-simulation/data-access";
 
 @Component({
   selector: 'tax-simulation-tax-simulation-page-simulation-feature',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, ShortNumbersPipe],
-  providers: [GetExchangeRateService, ShortNumbersPipe],
+  providers: [GetExchangeRateService, CalculateTaxService, ShortNumbersPipe],
   templateUrl: './tax-simulation-page-simulation-feature.component.html',
 })
 export class TaxSimulationPageSimulationFeatureComponent implements OnInit {
@@ -27,7 +28,11 @@ export class TaxSimulationPageSimulationFeatureComponent implements OnInit {
     selfEmployedIncome: FormControl<number>,
   }>;
 
-  constructor(private readonly fb: NonNullableFormBuilder, private readonly getExchangeRateService: GetExchangeRateService) {
+  constructor(
+    private readonly fb: NonNullableFormBuilder,
+    private readonly getExchangeRateService: GetExchangeRateService,
+    private readonly calculateTaxService: CalculateTaxService
+  ) {
     this.taxSimulationForm = this.fb.group({
       currency: [false, [Validators.required]],
       tjm: [0, [Validators.required]],
@@ -45,35 +50,23 @@ export class TaxSimulationPageSimulationFeatureComponent implements OnInit {
     });
   }
 
+  getPercentageRate(income: number): number {
+    return this.calculateTaxService.calculateCanadianFederalTaxPercentageRate(income)
+  }
+
   onSubmit() {
-    console.warn('onSubmit', this.taxSimulationForm.value);
     this.currentCurrency = !this.taxSimulationForm.value.currency ? 'EUR' : 'CAD';
     if (this.taxSimulationForm.value.tjm && this.taxSimulationForm.value.daysOfWork) {
-      if (this.currentCurrency === 'CAD') {
-        this.incomeCAD = this.taxSimulationForm.value.tjm * this.taxSimulationForm.value.daysOfWork;
-        this.result =  this.incomeCAD - ( this.incomeCAD * this.calculateCanadianFederalTaxPercentageRate(this.incomeCAD));
-      } else if (this.currentCurrency === 'EUR') {
+      if (this.currentCurrency === 'EUR') {
         this.incomeCAD = this.taxSimulationForm.value.tjm * this.taxSimulationForm.value.daysOfWork * this.currentExchangeRateEURToCAD;
-        this.result =  this.incomeCAD - ( this.incomeCAD * this.calculateCanadianFederalTaxPercentageRate(this.incomeCAD));
+      } else {
+        this.incomeCAD = this.taxSimulationForm.value.tjm * this.taxSimulationForm.value.daysOfWork;
       }
+      this.result = this.calculateTaxService.calculateTaxFromIncome(this.taxSimulationForm.value.tjm * this.taxSimulationForm.value.daysOfWork, this.currentCurrency, this.currentExchangeRateEURToCAD);
     }
   }
 
   setCurrency(): void {
     this.currentCurrency = this.currentCurrency === 'EUR' ? 'CAD' : 'EUR';
-  }
-
-  calculateCanadianFederalTaxPercentageRate = (income: number): number => {
-    if (income <= 49020) {
-      return 0.15;
-    } else if (income <= 98040) {
-      return 0.205;
-    } else if (income <= 151978) {
-      return 0.26;
-    } else if (income <= 216511) {
-      return 0.29;
-    } else {
-      return 0.33;
-    }
   }
 }

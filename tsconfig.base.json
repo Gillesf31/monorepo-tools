@@ -27,6 +27,9 @@
       "@monorepo-tools/tax-simulation/feature-shell": [
         "libs/tax-simulation/feature-shell/src/index.ts"
       ],
+      "@monorepo-tools/tax-simulation/page-simulation/data-access": [
+        "libs/tax-simulation/page-simulation/data-access/src/index.ts"
+      ],
       "@monorepo-tools/tax-simulation/page-simulation/feature": [
         "libs/tax-simulation/page-simulation/feature/src/index.ts"
       ]
