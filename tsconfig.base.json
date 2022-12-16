@@ -21,6 +21,9 @@
       "@monorepo-tools/shared/exchange-rate/util": [
         "libs/shared/exchange-rate/util/src/index.ts"
       ],
+      "@monorepo-tools/shared/helpers/util": [
+        "libs/shared/helpers/util/src/index.ts"
+      ],
       "@monorepo-tools/tax-simulation/feature-shell": [
         "libs/tax-simulation/feature-shell/src/index.ts"
       ],

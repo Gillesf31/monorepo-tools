@@ -1,23 +1,40 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {FormsModule} from "@angular/forms";
+import {FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {CurrencyModel} from "@monorepo-tools/shared/exchange-rate/util";
 import {ExchangeRateModel, GetExchangeRateService} from "@monorepo-tools/shared/exchange-rate/data-access";
 import {take} from "rxjs";
+import {ShortNumbersPipe} from "@monorepo-tools/shared/helpers/util";
 
 @Component({
   selector: 'tax-simulation-tax-simulation-page-simulation-feature',
   standalone: true,
-  imports: [CommonModule, FormsModule],
-  providers: [GetExchangeRateService],
+  imports: [CommonModule, ReactiveFormsModule, ShortNumbersPipe],
+  providers: [GetExchangeRateService, ShortNumbersPipe],
   templateUrl: './tax-simulation-page-simulation-feature.component.html',
 })
 export class TaxSimulationPageSimulationFeatureComponent implements OnInit {
   result = 0;
   currentExchangeRateEURToCAD = 0;
   currentExchangeRateCADToEUR = 0;
-  currentCurrency: CurrencyModel | undefined;
-  constructor(private readonly getExchangeRateService: GetExchangeRateService) {}
+  incomeCAD = 0;
+  currentCurrency: CurrencyModel = 'EUR';
+
+  taxSimulationForm!: FormGroup<{
+    currency: FormControl<boolean>,
+    tjm: FormControl<number>,
+    daysOfWork: FormControl<number>,
+    selfEmployedIncome: FormControl<number>,
+  }>;
+
+  constructor(private readonly fb: NonNullableFormBuilder, private readonly getExchangeRateService: GetExchangeRateService) {
+    this.taxSimulationForm = this.fb.group({
+      currency: [false, [Validators.required]],
+      tjm: [0, [Validators.required]],
+      daysOfWork: [0, [Validators.required]],
+      selfEmployedIncome: [0],
+    })
+  }
 
   ngOnInit(): void {
     this.getExchangeRateService.getExchangeRates('EUR', 'CAD').pipe(take(1)).subscribe((data: ExchangeRateModel) => {
@@ -28,20 +45,22 @@ export class TaxSimulationPageSimulationFeatureComponent implements OnInit {
     });
   }
 
-  calculate = (eventIncome: Event, currency: CurrencyModel): void => {
-    this.currentCurrency = currency
-    if (eventIncome.target) {
-      if (currency === 'CAD') {
-        const income = Number((eventIncome.target as HTMLInputElement).value);
-        this.result = income - income * this.calculateCanadianFederalTaxPercentageRate(income);
-      } else if (currency === 'EUR') {
-          const income = Number((eventIncome.target as HTMLInputElement).value) * this.currentExchangeRateEURToCAD;
-          console.warn('income', income);
-          this.result = income - income * this.calculateCanadianFederalTaxPercentageRate(income);
+  onSubmit() {
+    console.warn('onSubmit', this.taxSimulationForm.value);
+    this.currentCurrency = !this.taxSimulationForm.value.currency ? 'EUR' : 'CAD';
+    if (this.taxSimulationForm.value.tjm && this.taxSimulationForm.value.daysOfWork) {
+      if (this.currentCurrency === 'CAD') {
+        this.incomeCAD = this.taxSimulationForm.value.tjm * this.taxSimulationForm.value.daysOfWork;
+        this.result =  this.incomeCAD - ( this.incomeCAD * this.calculateCanadianFederalTaxPercentageRate(this.incomeCAD));
+      } else if (this.currentCurrency === 'EUR') {
+        this.incomeCAD = this.taxSimulationForm.value.tjm * this.taxSimulationForm.value.daysOfWork * this.currentExchangeRateEURToCAD;
+        this.result =  this.incomeCAD - ( this.incomeCAD * this.calculateCanadianFederalTaxPercentageRate(this.incomeCAD));
       }
-    } else {
-      this.result = 0;
     }
+  }
+
+  setCurrency(): void {
+    this.currentCurrency = this.currentCurrency === 'EUR' ? 'CAD' : 'EUR';
   }
 
   calculateCanadianFederalTaxPercentageRate = (income: number): number => {
