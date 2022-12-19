@@ -6,11 +6,12 @@ import {ExchangeRateModel, GetExchangeRateService} from "@monorepo-tools/shared/
 import {take} from "rxjs";
 import {ShortNumbersPipe} from "@monorepo-tools/shared/helpers/util";
 import {CalculateTaxService} from "@monorepo-tools/tax-simulation/page-simulation/data-access";
+import {SharedStatsUiComponent} from "@monorepo-tools/shared/stats/ui";
 
 @Component({
   selector: 'tax-simulation-tax-simulation-page-simulation-feature',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ShortNumbersPipe],
+  imports: [CommonModule, ReactiveFormsModule, ShortNumbersPipe, SharedStatsUiComponent],
   providers: [GetExchangeRateService, CalculateTaxService, ShortNumbersPipe],
   templateUrl: './tax-simulation-page-simulation-feature.component.html',
 })

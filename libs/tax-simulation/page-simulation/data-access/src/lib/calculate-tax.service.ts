@@ -5,7 +5,7 @@ import {
   FEDERAL_TAX_INCOME_FIRST_TAX_BRACKET,
   FEDERAL_TAX_INCOME_FOURTH_TAX_BRACKET,
   FEDERAL_TAX_INCOME_SECOND_TAX_BRACKET,
-  FEDERAL_TAX_INCOME_THIRD_TAX_BRACKET
+  FEDERAL_TAX_INCOME_THIRD_TAX_BRACKET, FederalBracketPercentageType
 } from "@monorepo-tools/tax-simulation/page-simulation/util";
 
 @Injectable()
@@ -21,7 +21,7 @@ export class CalculateTaxService {
       }
   }
 
-  calculateCanadianFederalTaxPercentageRate = (income: number): number => {
+  calculateCanadianFederalTaxPercentageRate = (income: number): FederalBracketPercentageType => {
     if (income <= FEDERAL_TAX_INCOME_FIRST_TAX_BRACKET) {
       return FEDERAL_TAX_INCOME_BY_PERCENTAGE[FEDERAL_TAX_INCOME_FIRST_TAX_BRACKET];
     } else if (income <= FEDERAL_TAX_INCOME_SECOND_TAX_BRACKET) {

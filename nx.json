@@ -19,6 +19,7 @@
         "default",
         "^production",
         "{workspaceRoot}/jest.preset.js",
+        "{workspaceRoot}/karma.conf.js",
         "{workspaceRoot}/karma.conf.js"
       ]
     },
@@ -51,7 +52,8 @@
     },
     "@nrwl/angular:library": {
       "linter": "eslint",
-      "unitTestRunner": "jest"
+      "unitTestRunner": "jest",
+      "strict": false
     },
     "@nrwl/angular:component": {
       "style": "css"

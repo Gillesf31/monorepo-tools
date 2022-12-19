@@ -24,7 +24,8 @@
                 <span class="label-text">TJM</span>
               </label>
               <label class="input-group">
-                <input formControlName="tjm" name="tjm" type="number" placeholder="0" class="input input-bordered w-full"/>
+                <input formControlName="tjm" name="tjm" type="number" placeholder="0"
+                       class="input input-bordered w-full"/>
                 <span>{{currentCurrency}}</span>
               </label>
             </div>
@@ -32,13 +33,13 @@
               <label class="label">
                 <span class="label-text">Country of the client</span>
               </label>
-                <div class="input-group">
-                  <select class="select select-bordered w-full">
-                    <option selected>Outside Canada</option>
-                    <option>Québec</option>
-                    <option>Ontario</option>
-                  </select>
-                </div>
+              <div class="input-group">
+                <select class="select select-bordered w-full">
+                  <option selected>Outside Canada</option>
+                  <option>Québec</option>
+                  <option>Ontario</option>
+                </select>
+              </div>
             </div>
             <div class="form-control">
               <label class="label">
@@ -58,41 +59,23 @@
       </div>
     </div>
   </form>
-  <div class="flex justify-center w-100">
-    <div class="bg-base-200 stats shadow">
-      <div class="stat">
-        <div class="stat-title">Current rate</div>
-        <div class="stat-value">{{this.getPercentageRate(this.incomeCAD) | percent}}</div>
-      </div>
-    </div>
-    <div class="bg-base-200 stats shadow">
-      <div class="stat">
-        <div class="stat-title">Before tax</div>
-        <div
-          class="stat-value">{{ (this.incomeCAD | shortNumbers) + ' CAD - ' + (this.incomeCAD * currentExchangeRateCADToEUR | shortNumbers) + ' EUR'}}</div>
-      </div>
-    </div>
-    <div class="bg-base-200 stats shadow">
-      <div class="stat">
-        <div class="stat-title">After tax</div>
-        <div
-          class="stat-value">{{ (this.result | shortNumbers) + ' CAD - ' + (this.result * currentExchangeRateCADToEUR | shortNumbers) + ' EUR'}}</div>
-      </div>
+  <div class="flex justify-center mt-3">
+    <div class="stats shadow">
+      <monorepo-tools-shared-stats-ui firstText="Current rate"
+                                      secondText="{{this.getPercentageRate(this.incomeCAD) | percent}}"></monorepo-tools-shared-stats-ui>
+      <monorepo-tools-shared-stats-ui firstText="Before tax"
+                                      secondText="{{ (this.incomeCAD | shortNumbers) + ' CAD - ' + (this.incomeCAD * currentExchangeRateCADToEUR | shortNumbers) + ' EUR'}}"></monorepo-tools-shared-stats-ui>
+      <monorepo-tools-shared-stats-ui firstText="After tax"
+                                      secondText="{{ (this.result | shortNumbers) + ' CAD - ' + (this.result * currentExchangeRateCADToEUR | shortNumbers) + ' EUR'}}"></monorepo-tools-shared-stats-ui>
     </div>
   </div>
-  <div class="flex justify-center">
+  <div class="flex justify-center mt-3">
 
-    <div class="bg-base-200 stats shadow">
-      <div class="stat">
-        <div class="stat-title">Per month before tax</div>
-        <div
-          class="stat-value">{{ (this.incomeCAD / 12 | number:'1.0-0') + ' CAD - ' + (this.incomeCAD * currentExchangeRateCADToEUR / 12 | number:'1.0-0') + ' EUR'}}</div>
-      </div>
-      <div class="stat">
-        <div class="stat-title">Per month after tax</div>
-        <div
-          class="stat-value">{{ (this.result / 12 | number:'1.0-0') + ' CAD - ' + (this.result * currentExchangeRateCADToEUR / 12 | number:'1.0-0') + ' EUR'}}</div>
-      </div>
+    <div class="stats shadow">
+      <monorepo-tools-shared-stats-ui firstText="Per month before tax"
+                                      secondText="{{ (this.incomeCAD / 12 | number:'1.0-0') + ' CAD - ' + (this.incomeCAD * currentExchangeRateCADToEUR / 12 | number:'1.0-0') + ' EUR'}}"></monorepo-tools-shared-stats-ui>
+      <monorepo-tools-shared-stats-ui firstText="Per month after tax"
+                                      secondText="{{ (this.result / 12 | number:'1.0-0') + ' CAD - ' + (this.result * currentExchangeRateCADToEUR / 12 | number:'1.0-0') + ' EUR'}}"></monorepo-tools-shared-stats-ui>
     </div>
   </div>
 </div>
