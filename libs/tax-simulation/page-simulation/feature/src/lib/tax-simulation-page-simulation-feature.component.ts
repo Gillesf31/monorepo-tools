@@ -24,6 +24,7 @@ export class TaxSimulationPageSimulationFeatureComponent implements OnInit {
   taxSimulationForm!: FormGroup<{
     currency: FormControl<boolean>,
     tjm: FormControl<number>,
+    country: FormControl<string>,
     daysOfWork: FormControl<number>,
     selfEmployedIncome: FormControl<number>,
   }>;
@@ -36,6 +37,7 @@ export class TaxSimulationPageSimulationFeatureComponent implements OnInit {
     this.taxSimulationForm = this.fb.group({
       currency: [false, [Validators.required]],
       tjm: [0, [Validators.required]],
+      country: ['OC', [Validators.required]],
       daysOfWork: [0, [Validators.required]],
       selfEmployedIncome: [0],
     })
@@ -46,12 +48,13 @@ export class TaxSimulationPageSimulationFeatureComponent implements OnInit {
       this.currentExchangeRateEURToCAD = data.conversion_rate;
     });
     this.getExchangeRateService.getExchangeRates('CAD', 'EUR').pipe(take(1)).subscribe((data: ExchangeRateModel) => {
+      console.log(data);
       this.currentExchangeRateCADToEUR = 0.69;
     });
   }
 
   getPercentageRate(income: number): number {
-    return this.calculateTaxService.calculateCanadianFederalTaxPercentageRate(income)
+    return this.calculateTaxService.calculateCanadianFederalTaxPercentageRate(income);
   }
 
   onSubmit() {

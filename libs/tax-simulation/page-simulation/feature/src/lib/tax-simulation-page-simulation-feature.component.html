@@ -24,9 +24,21 @@
                 <span class="label-text">TJM</span>
               </label>
               <label class="input-group">
-                <input formControlName="tjm" name="tjm" type="number" placeholder="0" class="input input-bordered"/>
+                <input formControlName="tjm" name="tjm" type="number" placeholder="0" class="input input-bordered w-full"/>
                 <span>{{currentCurrency}}</span>
               </label>
+            </div>
+            <div class="form-control">
+              <label class="label">
+                <span class="label-text">Country of the client</span>
+              </label>
+                <div class="input-group">
+                  <select class="select select-bordered w-full">
+                    <option selected>Outside Canada</option>
+                    <option>Québec</option>
+                    <option>Ontario</option>
+                  </select>
+                </div>
             </div>
             <div class="form-control">
               <label class="label">
@@ -34,7 +46,7 @@
               </label>
               <label class="input-group">
                 <input formControlName="daysOfWork" name="daysOfWork" type="number" placeholder="0"
-                       class="input input-bordered"/>
+                       class="input input-bordered w-full"/>
                 <span>days</span>
               </label>
             </div>
@@ -46,32 +58,41 @@
       </div>
     </div>
   </form>
-  <div class="bg-base-200 stats shadow">
-    <div class="stat">
-      <div class="stat-title">Current rate</div>
-      <div class="stat-value">{{this.getPercentageRate(this.incomeCAD) | percent}}</div>
+  <div class="flex justify-center w-100">
+    <div class="bg-base-200 stats shadow">
+      <div class="stat">
+        <div class="stat-title">Current rate</div>
+        <div class="stat-value">{{this.getPercentageRate(this.incomeCAD) | percent}}</div>
+      </div>
     </div>
-    <div class="stat">
-      <div class="stat-title">Before tax</div>
-      <div
-        class="stat-value">{{ (this.incomeCAD | shortNumbers) + ' CAD - ' + (this.incomeCAD * currentExchangeRateCADToEUR | shortNumbers) + ' EUR'}}</div>
+    <div class="bg-base-200 stats shadow">
+      <div class="stat">
+        <div class="stat-title">Before tax</div>
+        <div
+          class="stat-value">{{ (this.incomeCAD | shortNumbers) + ' CAD - ' + (this.incomeCAD * currentExchangeRateCADToEUR | shortNumbers) + ' EUR'}}</div>
+      </div>
     </div>
-    <div class="stat">
-      <div class="stat-title">After tax</div>
-      <div
-        class="stat-value">{{ (this.result | shortNumbers) + ' CAD - ' + (this.result * currentExchangeRateCADToEUR | shortNumbers) + ' EUR'}}</div>
+    <div class="bg-base-200 stats shadow">
+      <div class="stat">
+        <div class="stat-title">After tax</div>
+        <div
+          class="stat-value">{{ (this.result | shortNumbers) + ' CAD - ' + (this.result * currentExchangeRateCADToEUR | shortNumbers) + ' EUR'}}</div>
+      </div>
     </div>
   </div>
-  <div class="bg-base-200 stats shadow">
-    <div class="stat">
-      <div class="stat-title">Per month before tax</div>
-      <div
-        class="stat-value">{{ (this.incomeCAD / 12 | shortNumbers: 2) + ' CAD - ' + (this.incomeCAD * currentExchangeRateCADToEUR / 12 | shortNumbers: 2) + ' EUR'}}</div>
-    </div>
-    <div class="stat">
-      <div class="stat-title">Per month after tax</div>
-      <div
-        class="stat-value">{{ (this.result / 12 | shortNumbers: 2) + ' CAD - ' + (this.result * currentExchangeRateCADToEUR / 12 | shortNumbers: 2) + ' EUR'}}</div>
+  <div class="flex justify-center">
+
+    <div class="bg-base-200 stats shadow">
+      <div class="stat">
+        <div class="stat-title">Per month before tax</div>
+        <div
+          class="stat-value">{{ (this.incomeCAD / 12 | number:'1.0-0') + ' CAD - ' + (this.incomeCAD * currentExchangeRateCADToEUR / 12 | number:'1.0-0') + ' EUR'}}</div>
+      </div>
+      <div class="stat">
+        <div class="stat-title">Per month after tax</div>
+        <div
+          class="stat-value">{{ (this.result / 12 | number:'1.0-0') + ' CAD - ' + (this.result * currentExchangeRateCADToEUR / 12 | number:'1.0-0') + ' EUR'}}</div>
+      </div>
     </div>
   </div>
 </div>

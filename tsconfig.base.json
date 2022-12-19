@@ -32,6 +32,9 @@
       ],
       "@monorepo-tools/tax-simulation/page-simulation/feature": [
         "libs/tax-simulation/page-simulation/feature/src/index.ts"
+      ],
+      "@monorepo-tools/tax-simulation/page-simulation/util": [
+        "libs/tax-simulation/page-simulation/util/src/index.ts"
       ]
     }
   },
