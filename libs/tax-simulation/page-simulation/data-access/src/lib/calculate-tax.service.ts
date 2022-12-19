@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
 import {CurrencyModel} from "@monorepo-tools/shared/exchange-rate/util";
-import {FEDERAL_TAX_INCOME_BY_PERCENTAGE} from "@monorepo-tools/tax-simulation/page-simulation/util";
+import {
+  FEDERAL_TAX_INCOME_BY_PERCENTAGE, FEDERAL_TAX_INCOME_FIFTH_TAX_BRACKET,
+  FEDERAL_TAX_INCOME_FIRST_TAX_BRACKET,
+  FEDERAL_TAX_INCOME_FOURTH_TAX_BRACKET,
+  FEDERAL_TAX_INCOME_SECOND_TAX_BRACKET,
+  FEDERAL_TAX_INCOME_THIRD_TAX_BRACKET
+} from "@monorepo-tools/tax-simulation/page-simulation/util";
 
 @Injectable()
 export class CalculateTaxService {
@@ -16,16 +22,16 @@ export class CalculateTaxService {
   }
 
   calculateCanadianFederalTaxPercentageRate = (income: number): number => {
-    if (income <= 49020) {
-      return FEDERAL_TAX_INCOME_BY_PERCENTAGE[49020];
-    } else if (income <= 98040) {
-      return FEDERAL_TAX_INCOME_BY_PERCENTAGE[98040];
-    } else if (income <= 151978) {
-      return FEDERAL_TAX_INCOME_BY_PERCENTAGE[151978];
-    } else if (income <= 216511) {
-      return FEDERAL_TAX_INCOME_BY_PERCENTAGE[216511];
+    if (income <= FEDERAL_TAX_INCOME_FIRST_TAX_BRACKET) {
+      return FEDERAL_TAX_INCOME_BY_PERCENTAGE[FEDERAL_TAX_INCOME_FIRST_TAX_BRACKET];
+    } else if (income <= FEDERAL_TAX_INCOME_SECOND_TAX_BRACKET) {
+      return FEDERAL_TAX_INCOME_BY_PERCENTAGE[FEDERAL_TAX_INCOME_SECOND_TAX_BRACKET];
+    } else if (income <= FEDERAL_TAX_INCOME_THIRD_TAX_BRACKET) {
+      return FEDERAL_TAX_INCOME_BY_PERCENTAGE[FEDERAL_TAX_INCOME_THIRD_TAX_BRACKET];
+    } else if (income <= FEDERAL_TAX_INCOME_FOURTH_TAX_BRACKET) {
+      return FEDERAL_TAX_INCOME_BY_PERCENTAGE[FEDERAL_TAX_INCOME_FOURTH_TAX_BRACKET];
     } else {
-      return FEDERAL_TAX_INCOME_BY_PERCENTAGE[100000000];
+      return FEDERAL_TAX_INCOME_BY_PERCENTAGE[FEDERAL_TAX_INCOME_FIFTH_TAX_BRACKET];
     }
   }
 }
